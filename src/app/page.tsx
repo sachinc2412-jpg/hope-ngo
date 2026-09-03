@@ -1,29 +1,54 @@
+import { Hero } from "@/components/home/Hero";
+import { HumanStory } from "@/components/home/HumanStory";
+import { ImpactStats } from "@/components/home/ImpactStats";
+import { DonationImpact } from "@/components/home/DonationImpact";
+import { FeaturedProjects } from "@/components/home/FeaturedProjects";
+import { ImpactMapPreview } from "@/components/home/ImpactMapPreview";
+import { StoriesOfChange } from "@/components/home/StoriesOfChange";
+import { Transparency } from "@/components/home/Transparency";
+import { HowMoneyHelps } from "@/components/home/HowMoneyHelps";
+import { GetInvolved } from "@/components/home/GetInvolved";
+import { FinalCTA } from "@/components/home/FinalCTA";
+import {
+  getHomepage,
+  getImpactStats,
+  getDonationTiers,
+  getFeaturedProjects,
+  getFeaturedStories,
+  getTransparency,
+  getPartners,
+} from "@/sanity/home";
+
 /**
- * Day 1 placeholder home. Its only job: prove the fonts, tokens, and build all
- * work end-to-end. The real 13-section homepage is built Days 5–8 and replaces
- * this entirely. Do not grow this file — it is scaffolding, not the product.
+ * Homepage — the full 13-section scroll (Days 5–7). Everything Sanity-driven
+ * with fallbacks; sections omit themselves when their content is empty. Footer
+ * is in the layout. No motion yet — Days 32–34.
  */
-export default function Home() {
+export default async function Home() {
+  const [homepage, stats, tiers, projects, stories, transparency, partners] =
+    await Promise.all([
+      getHomepage(),
+      getImpactStats(),
+      getDonationTiers(),
+      getFeaturedProjects(),
+      getFeaturedStories(),
+      getTransparency(),
+      getPartners(),
+    ]);
+
   return (
-    <main className="mx-auto flex min-h-dvh max-w-3xl flex-col justify-center gap-6 px-6">
-      <p className="text-ink-faint font-sans text-sm tracking-wide uppercase">
-        Day 1 · foundations
-      </p>
-      <h1 className="font-display text-ink text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-        Together, we can change what tomorrow looks like.
-      </h1>
-      <p className="text-ink-soft max-w-xl font-sans text-lg leading-relaxed">
-        Every contribution helps create access to opportunity, dignity and a better future
-        for communities that need it most.
-      </p>
-      <div className="flex flex-wrap gap-3 pt-2">
-        <span className="bg-accent text-accent-ink rounded-sm px-5 py-3 text-sm font-medium">
-          Donate now
-        </span>
-        <span className="border-line text-ink rounded-sm border px-5 py-3 text-sm font-medium">
-          See our impact
-        </span>
-      </div>
-    </main>
+    <>
+      <Hero data={homepage} />
+      <HumanStory story={homepage?.featuredStory} />
+      <ImpactStats stats={stats} />
+      <DonationImpact tiers={tiers} />
+      <FeaturedProjects projects={projects} />
+      <ImpactMapPreview />
+      <StoriesOfChange stories={stories} />
+      <Transparency data={transparency} partners={partners} />
+      <HowMoneyHelps allocations={transparency?.allocations} />
+      <GetInvolved />
+      <FinalCTA headline={homepage?.finalCtaHeadline} text={homepage?.finalCtaText} />
+    </>
   );
 }
