@@ -29,6 +29,7 @@ export function StepDesignation({
           <button
             key={d}
             type="button"
+            aria-pressed={value === d}
             onClick={() => onSelect(d)}
             className={`rounded-sm border px-5 py-4 text-left font-sans transition-colors ${
               value === d

@@ -43,6 +43,7 @@ export function StepAmount({
           <button
             key={t.amountFils}
             type="button"
+            aria-pressed={value === t.amountFils && custom === ""}
             onClick={() => {
               setCustom("");
               setError(null);

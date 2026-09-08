@@ -12,7 +12,7 @@
   --color-bg-raised: #fcfaf5; /* cards / raised surfaces */
   --color-ink: #1a1714; /* primary text */
   --color-ink-soft: #4a453e; /* secondary text */
-  --color-ink-faint: #8a8378; /* captions / meta */
+  --color-ink-faint: #6b6357; /* captions / meta — WCAG AA (5.39:1 on bg) */
   --color-line: #e4ded2; /* borders / dividers */
   --color-accent: #1b4965; /* deep denim — CTAs, progress, links */
   --color-accent-hover: #163b53; /* darker denim for hover */
@@ -69,6 +69,8 @@ html {
 }
 .input:focus-visible {
   border-color: var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 /* Print: hide site chrome so receipts print clean. */
