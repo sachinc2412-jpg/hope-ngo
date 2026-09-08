@@ -53,6 +53,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <script
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.classList.add('js')`,
