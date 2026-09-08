@@ -5,7 +5,16 @@ import { projectBySlugQuery, projectSlugsQuery } from "@/sanity/queries";
 import { SanityImage } from "@/components/sanity/SanityImage";
 import { PortableTextRenderer } from "@/components/sanity/PortableTextRenderer";
 import { Button } from "@/components/ui/button";
+import { FundingBar } from "@/components/project/FundingBar";
+import { ProjectGallery } from "@/components/project/ProjectGallery";
+import { ProjectVideo } from "@/components/project/ProjectVideo";
+import { ProjectUpdates } from "@/components/project/ProjectUpdates";
+import { getFundingBySlugs } from "@/lib/donations/funding";
+import { getImpactUpdatesForSlugs } from "@/lib/donations/updates";
 import type { ProjectDetail } from "@/sanity/types";
+import { urlFor } from "@/sanity/image";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 /** Pre-render published project slugs at build; on error, none (render on demand). */
 export async function generateStaticParams() {
@@ -41,9 +50,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) return { title: "Project — Hope" };
+  const ogImage = project.heroImage
+    ? urlFor(project.heroImage).width(1200).height(630).fit("crop").url()
+    : undefined;
   return {
     title: `${project.title} — Hope`,
     description: project.summary,
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      type: "article",
+      title: project.title,
+      description: project.summary,
+      url: `/projects/${slug}`,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : undefined,
+    },
   };
 }
 
@@ -56,8 +76,32 @@ export default async function ProjectPage({
   const project = await getProject(slug);
   if (!project) notFound();
 
+  const [funding, updates] = await Promise.all([
+    getFundingBySlugs([slug]).then((m) => m.get(slug)),
+    getImpactUpdatesForSlugs([slug]),
+  ]);
+
+  const ogImage = project.heroImage
+    ? urlFor(project.heroImage).width(1200).height(630).fit("crop").url()
+    : undefined;
+
   return (
     <article>
+      <JsonLd
+        data={articleJsonLd({
+          title: project.title,
+          description: project.summary,
+          image: ogImage,
+          path: `/projects/${project.slug}`,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Projects", path: "/projects" },
+          { name: project.title, path: `/projects/${project.slug}` },
+        ])}
+      />
       <div className="bg-line relative h-[52vh] min-h-[360px] w-full">
         <SanityImage
           image={project.heroImage}
@@ -88,12 +132,25 @@ export default async function ProjectPage({
           </div>
         )}
 
+        <ProjectVideo url={project.video} />
+        <ProjectGallery images={project.gallery} />
+
         <div className="border-line mt-12 border-t pt-8">
+          {funding && (
+            <div className="mb-6">
+              <FundingBar
+                raisedCents={funding.raisedCents}
+                goalCents={funding.goalCents ?? undefined}
+                currency={funding.currency}
+              />
+            </div>
+          )}
           <Button asChild size="lg">
-            <Link href="/donate">Support this project</Link>
+            <Link href={`/donate?project=${project.slug}`}>Support this project</Link>
           </Button>
-          {/* Funding progress (raised / goal) arrives Day 9 from Postgres. */}
         </div>
+
+        <ProjectUpdates updates={updates} />
       </div>
     </article>
   );

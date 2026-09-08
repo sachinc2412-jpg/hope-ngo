@@ -2,9 +2,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import type { ProjectCardData } from "@/sanity/types";
+import type { Funding } from "@/lib/donations/funding";
 
 /** Featured projects grid. Funding numbers arrive Day 9; cards show pending bars. */
-export function FeaturedProjects({ projects }: { projects: ProjectCardData[] }) {
+export function FeaturedProjects({
+  projects,
+  funding,
+}: {
+  projects: ProjectCardData[];
+  funding: Map<string, Funding>;
+}) {
   if (projects.length === 0) return null;
 
   return (
@@ -25,9 +32,18 @@ export function FeaturedProjects({ projects }: { projects: ProjectCardData[] }) 
         </div>
 
         <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <ProjectCard key={p._id} project={p} />
-          ))}
+          {projects.map((p) => {
+            const f = funding.get(p.slug);
+            return (
+              <ProjectCard
+                key={p._id}
+                project={p}
+                raisedCents={f?.raisedCents}
+                goalCents={f?.goalCents ?? undefined}
+                currency={f?.currency}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

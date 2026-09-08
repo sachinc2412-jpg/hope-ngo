@@ -75,3 +75,38 @@ export interface PartnerData {
   logo?: SanityImage;
   url?: string;
 }
+
+export interface ImpactUpdateData {
+  _id: string;
+  title: string;
+  publishedAt?: string;
+  image?: SanityImage;
+  projectTitle?: string;
+  projectSlug?: string;
+}
+
+export interface StoryDetail {
+  title: string;
+  personName?: string;
+  heroImage: SanityImage;
+  excerpt?: string;
+  body?: import("@portabletext/react").PortableTextBlock[];
+  publishedAt?: string;
+  relatedProject?: { title: string; slug: string };
+}
+
+export interface TransparencyReport {
+  _id: string;
+  year: number;
+  type: "annual" | "audit";
+  summary?: string;
+  fileUrl?: string;
+}
+
+export interface TeamMember {
+  _id: string;
+  name: string;
+  role: string;
+  photo?: SanityImage;
+  bio?: string;
+}

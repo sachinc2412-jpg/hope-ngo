@@ -1,6 +1,7 @@
 import { sanityFetch } from "@/sanity/fetch";
 import { allProjectsQuery } from "@/sanity/queries";
 import { ProjectCard } from "@/components/project/ProjectCard";
+import { getFundingBySlugs } from "@/lib/donations/funding";
 import type { ProjectCardData } from "@/sanity/types";
 
 export const metadata = {
@@ -23,6 +24,7 @@ async function getProjects(): Promise<ProjectCardData[]> {
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
+  const funding = await getFundingBySlugs(projects.map((p) => p.slug));
 
   return (
     <section className="mx-auto max-w-[var(--container-content)] px-6 py-20 md:py-28">
@@ -39,9 +41,18 @@ export default async function ProjectsPage() {
         </p>
       ) : (
         <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <ProjectCard key={p._id} project={p} />
-          ))}
+          {projects.map((p) => {
+            const f = funding.get(p.slug);
+            return (
+              <ProjectCard
+                key={p._id}
+                project={p}
+                raisedCents={f?.raisedCents}
+                goalCents={f?.goalCents ?? undefined}
+                currency={f?.currency}
+              />
+            );
+          })}
         </div>
       )}
       {/* Funding bars show pending until Day 9 wires Postgres totals. */}

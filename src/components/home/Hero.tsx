@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SanityImage } from "@/components/sanity/SanityImage";
+import { HeroMedia } from "@/components/motion/HeroMedia";
 import type { HomepageData } from "@/sanity/types";
 
 const FALLBACK_HEADLINE = "Together, we can change what tomorrow looks like.";
@@ -20,14 +20,7 @@ export function Hero({ data }: { data: HomepageData | null }) {
     <section className="relative flex min-h-[88vh] items-center overflow-hidden">
       {hasImage && (
         <>
-          <div className="absolute inset-0">
-            <SanityImage
-              image={data!.heroMedia!}
-              sizes="100vw"
-              priority
-              className="object-cover"
-            />
-          </div>
+          <HeroMedia image={data!.heroMedia!} />
           {/* Legibility scrim — functional, not decoration. */}
           <div className="from-ink/70 via-ink/30 to-ink/10 absolute inset-0 bg-gradient-to-t" />
         </>

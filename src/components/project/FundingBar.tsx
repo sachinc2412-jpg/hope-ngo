@@ -7,7 +7,7 @@
 export function FundingBar({
   raisedCents,
   goalCents,
-  currency = "USD",
+  currency = "AED",
 }: {
   raisedCents?: number;
   goalCents?: number;

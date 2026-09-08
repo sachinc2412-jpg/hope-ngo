@@ -1,4 +1,5 @@
 import type { ImpactStatData } from "@/sanity/types";
+import { Counter } from "@/components/motion/Counter";
 
 /**
  * Impact statistics band. Static for now — the count-up-on-scroll animation is
@@ -15,8 +16,7 @@ export function ImpactStats({ stats }: { stats: ImpactStatData[] }) {
           {stats.map((s) => (
             <div key={s._id}>
               <p className="font-display text-ink text-4xl tracking-tight md:text-5xl">
-                {s.value.toLocaleString()}
-                {s.suffix ?? ""}
+                <Counter value={s.value} suffix={s.suffix ?? ""} />
               </p>
               <p className="text-ink-soft mt-2 font-sans text-sm">{s.label}</p>
             </div>

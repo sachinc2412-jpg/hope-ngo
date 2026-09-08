@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SanityImage } from "@/components/sanity/SanityImage";
+import { MaskReveal } from "@/components/motion/MaskReveal";
 import type { FeaturedStory } from "@/sanity/types";
 
 /**
@@ -16,13 +17,13 @@ export function HumanStory({ story }: { story?: FeaturedStory }) {
   return (
     <section className="mx-auto max-w-[var(--container-content)] px-6 py-24 md:py-32">
       <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-        <div className="bg-line relative aspect-[4/5] overflow-hidden rounded-lg">
+        <MaskReveal className="bg-line relative aspect-[4/5] overflow-hidden rounded-lg">
           <SanityImage
             image={story.heroImage}
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
-        </div>
+        </MaskReveal>
         <div>
           <p className="text-ink-faint font-sans text-sm tracking-wide uppercase">
             A story of change

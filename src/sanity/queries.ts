@@ -109,3 +109,71 @@ export const partnersQuery = groq`
     url
   }
 `;
+
+export const impactUpdatesForSlugsQuery = groq`
+  *[_type == "projectUpdate" && relatedProject->slug.current in $slugs]
+    | order(coalesce(publishedAt, _createdAt) desc)[0...12] {
+    _id,
+    title,
+    publishedAt,
+    image,
+    "projectTitle": relatedProject->title,
+    "projectSlug": relatedProject->slug.current
+  }
+`;
+
+export const adminStoriesQuery = groq`
+  *[_type == "story"] | order(coalesce(publishedAt, _createdAt) desc) {
+    _id,
+    title,
+    personName,
+    "slug": slug.current,
+    "project": relatedProject->title,
+    publishedAt
+  }
+`;
+
+export const adminUpdatesQuery = groq`
+  *[_type == "projectUpdate"] | order(coalesce(publishedAt, _createdAt) desc) {
+    _id,
+    title,
+    "project": relatedProject->title,
+    "projectSlug": relatedProject->slug.current,
+    publishedAt
+  }
+`;
+
+export const allStoriesQuery = groq`
+  *[_type == "story"] | order(coalesce(publishedAt, _createdAt) desc) {
+    _id, title, personName, "slug": slug.current, heroImage, excerpt
+  }
+`;
+
+export const storySlugsQuery = groq`
+  *[_type == "story" && defined(slug.current)][].slug.current
+`;
+
+export const storyBySlugQuery = groq`
+  *[_type == "story" && slug.current == $slug][0] {
+    title, personName, heroImage, excerpt, body, publishedAt,
+    "relatedProject": relatedProject->{ title, "slug": slug.current }
+  }
+`;
+
+export const transparencyReportsQuery = groq`
+  *[_type == "transparencyReport"] | order(year desc) {
+    _id, year, type, summary, "fileUrl": file.asset->url
+  }
+`;
+
+export const teamQuery = groq`
+  *[_type == "teamMember"] | order(order asc) {
+    _id, name, role, photo, bio
+  }
+`;
+
+export const mapProjectsQuery = groq`
+  *[_type == "project" && defined(slug.current)]{
+    "slug": slug.current, title, location
+  }
+`;

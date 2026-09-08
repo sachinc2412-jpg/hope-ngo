@@ -11,11 +11,13 @@ export function ProjectCard({
   project,
   raisedCents,
   goalCents,
+  currency,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
 }: {
   project: ProjectCardData;
   raisedCents?: number;
   goalCents?: number;
+  currency?: string;
   sizes?: string;
 }) {
   return (
@@ -34,7 +36,7 @@ export function ProjectCard({
           {project.summary}
         </p>
       )}
-      <FundingBar raisedCents={raisedCents} goalCents={goalCents} />
+      <FundingBar raisedCents={raisedCents} goalCents={goalCents} currency={currency} />
     </Link>
   );
 }
