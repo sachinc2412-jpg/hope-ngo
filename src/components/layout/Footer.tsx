@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { footerNav, socialLinks } from "@/lib/nav";
@@ -9,7 +10,13 @@ export function Footer() {
       <div className="mx-auto max-w-[var(--container-content)] px-6 py-16">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
-            <p className="font-display text-ink text-2xl tracking-tight">Hope</p>
+            <Image
+              src="/hope-logo.png"
+              alt="Hope — Together for a brighter tomorrow"
+              width={180}
+              height={178}
+              className="h-20 w-auto"
+            />
             <p className="text-ink-soft mt-3 max-w-xs font-sans text-sm leading-relaxed">
               Creating access to opportunity, dignity and a better future for communities
               that need it most.

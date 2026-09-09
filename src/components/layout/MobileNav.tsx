@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import Link from "next/link";
 import { useState } from "react";
 import { Menu } from "lucide-react";
@@ -29,7 +31,16 @@ export function MobileNav() {
         </button>
       </SheetTrigger>
       <SheetContent>
-        <SheetTitle className="font-display text-ink text-2xl">Hope</SheetTitle>
+        <SheetTitle className="text-ink font-display flex items-center gap-2 text-2xl">
+          <Image
+            src="/hope-mark.png"
+            alt=""
+            width={32}
+            height={31}
+            className="h-8 w-auto"
+          />
+          Hope
+        </SheetTitle>
         <SheetDescription className="sr-only">Main navigation</SheetDescription>
         <nav className="mt-10 flex flex-col gap-1">
           {primaryNav.map((link) => (

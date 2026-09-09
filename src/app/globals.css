@@ -14,9 +14,11 @@
   --color-ink-soft: #4a453e; /* secondary text */
   --color-ink-faint: #6b6357; /* captions / meta — WCAG AA (5.39:1 on bg) */
   --color-line: #e4ded2; /* borders / dividers */
-  --color-accent: #1b4965; /* deep denim — CTAs, progress, links */
-  --color-accent-hover: #163b53; /* darker denim for hover */
+  --color-accent: #082f59; /* logo navy — CTAs, progress, links (12.25:1 on bg) */
+  --color-accent-hover: #0e3a68; /* navy hover */
   --color-accent-ink: #ffffff;
+  --color-gold: #f8ae13; /* logo gold — DECORATIVE / fills only, never text on light */
+  --color-gold-ink: #082f59; /* navy text on gold (7.08:1) */
   --color-success: #3f6b4a;
   --color-danger: #9b2c2c;
 

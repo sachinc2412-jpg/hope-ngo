@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -15,9 +16,18 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-[var(--container-content)] items-center justify-between px-6">
         <Link
           href="/"
-          className="font-display text-ink focus-visible:outline-accent text-2xl tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="focus-visible:outline-accent flex items-center gap-2.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+          aria-label="Hope — home"
         >
-          Hope
+          <Image
+            src="/hope-mark.png"
+            alt=""
+            width={36}
+            height={35}
+            className="h-9 w-auto"
+            priority
+          />
+          <span className="text-ink font-display text-2xl tracking-tight">Hope</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
